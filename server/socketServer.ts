@@ -22,8 +22,12 @@ function getUniqueSessionId(): string {
 }
 
 export function initSocketServer(httpServer: HttpServer) {
+  // In split deployment, set CORS_ORIGIN to your Vercel URL:
+  //   e.g.  CORS_ORIGIN=https://buzzer-self.vercel.app
+  const corsOrigin = process.env.CORS_ORIGIN || '*'
+
   const io = new SocketIOServer(httpServer, {
-    cors: { origin: '*', methods: ['GET', 'POST'] },
+    cors: { origin: corsOrigin, methods: ['GET', 'POST'] },
   })
 
   io.on('connection', (socket) => {

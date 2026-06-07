@@ -7,7 +7,13 @@ export function getSocket(): Socket {
     throw new Error('getSocket() must be called on the client side')
   }
   if (!socketInstance) {
-    socketInstance = io()
+    // In local dev (custom server) no URL is needed — connects to same origin.
+    // In split deployment (Vercel frontend + separate backend), set:
+    //   NEXT_PUBLIC_SOCKET_URL=https://your-backend.railway.app
+    const url = process.env.NEXT_PUBLIC_SOCKET_URL ?? ''
+    socketInstance = io(url, {
+      transports: ['websocket', 'polling'],
+    })
   }
   return socketInstance
 }
