@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  // Socket.IO server runs via a custom server, not Next.js route handlers.
+  // Exclude these packages from the Next.js server bundle.
+  serverExternalPackages: ['socket.io'],
+}
 
-export default nextConfig;
+export default nextConfig
